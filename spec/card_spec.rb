@@ -23,51 +23,56 @@ class Card
 end
 
 RSpec.describe Card do
-  let(:card) { Card.new(2, Card::SUITS.first) }
+  subject { described_class.new(2, Card::SUITS.first) }
   
   it '#rank' do
-    expect(card.rank).to eq(2)
+    expect(subject.rank).to eq(2)
   end
 
   it '#suit' do
-    expect(card.suit).to eq(Card::SUITS.first)
+    expect(subject.suit).to eq(Card::SUITS.first)
   end
 
 
   describe '#info' do
     context 'when rank is 1' do
+      subject { described_class.new(1, Card::SUITS.first) }
+
       it "prints A#{Card::SUITS.first}" do
-        card = Card.new(1, Card::SUITS.first)
-        expect(card.info).to eq("A#{Card::SUITS.first}")
+        expect(subject.info).to eq("A#{Card::SUITS.first}")
       end
     end
 
     context 'when rank is 11' do
+      subject { described_class.new(11, Card::SUITS.first) }
+
       it "prints J#{Card::SUITS.first}" do
-        card = Card.new(11, Card::SUITS.first)
-        expect(card.info).to eq("J#{Card::SUITS.first}")
+        expect(subject.info).to eq("J#{Card::SUITS.first}")
       end
     end
     
     context 'when rank is 12' do
+      subject { described_class.new(12, Card::SUITS.first) }
+
       it "prints Q#{Card::SUITS.first}" do
-        card = Card.new(12, Card::SUITS.first)
-        expect(card.info).to eq("Q#{Card::SUITS.first}")
+        expect(subject.info).to eq("Q#{Card::SUITS.first}")
       end
     end
     
     context 'when rank is 13' do
+      subject { described_class.new(13, Card::SUITS.first) }
+
       it "prints K#{Card::SUITS.first}" do
-        card = Card.new(13, Card::SUITS.first)
-        expect(card.info).to eq("K#{Card::SUITS.first}")
+        expect(subject.info).to eq("K#{Card::SUITS.first}")
       end
     end
     
-    context 'when rank from 2 till 10' do
-      2.upto(10) do |rank|
-        card = Card.new(rank, Card::SUITS.first)
+    2.upto(10) do |rank|
+      context "when rank is #{rank}" do
+        subject { described_class.new(rank, Card::SUITS.first) }
+
         it "prints #{rank}#{Card::SUITS.first}" do
-          expect(card.info).to eq("#{rank}#{Card::SUITS.first}")
+          expect(subject.info).to eq("#{rank}#{Card::SUITS.first}")
         end
       end
     end
