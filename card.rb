@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
+# Карта
 class Card
-  # червы бубны пики вини 
-  SUITS = %W{ \u{2661} \u{2662} \u{2664} \u{2667} }.freeze
+  # червы бубны пики вини
+  SUITS = %W[\u{2661} \u{2662} \u{2664} \u{2667}].freeze
 
   attr_reader :rank, :suit, :weight
 
@@ -23,18 +26,18 @@ class Card
 
   private
 
-  def default_weight(rank)
-    case rank
-    when 1 then 11
-    when 11 then 10
-    when 12 then 10
-    when 13 then 10
-    else
-      rank
-    end
+  def default_weight(value)
+    return 10 if face_card?
+    return 11 if ace?
+
+    value 
   end
-  
+
   def ace?
     rank == 1
+  end
+
+  def face_card?
+    rank > 10
   end
 end
