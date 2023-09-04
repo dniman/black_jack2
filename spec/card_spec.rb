@@ -2,11 +2,12 @@ class Card
   # червы бубны пики вини 
   SUITS = %W{ \u{2661} \u{2662} \u{2664} \u{2667} }.freeze
 
-  attr_reader :rank, :suit
+  attr_reader :rank, :suit, :weight
 
   def initialize(rank, suit)
     @rank = rank
     @suit = suit
+    @weight = default_weight(rank)
   end
 
   def info
@@ -20,6 +21,22 @@ class Card
     end
   end
 
+  private
+
+  def default_weight(rank)
+    case rank
+    when 1 then 11
+    when 11 then 10
+    when 12 then 10
+    when 13 then 10
+    else
+      rank
+    end
+  end
+  
+  def ace?
+    rank == 1
+  end
 end
 
 RSpec.describe Card do
@@ -32,7 +49,6 @@ RSpec.describe Card do
   it '#suit' do
     expect(subject.suit).to eq(Card::SUITS.first)
   end
-
 
   describe '#info' do
     context 'when rank is 1' do
@@ -77,6 +93,35 @@ RSpec.describe Card do
       end
     end
   end
+  
+  describe '#weight' do
+    context 'when rank is 1' do
+      subject { described_class.new(1, Card::SUITS.first) }
 
+      it "weight is 11" do
+        expect(subject.weight).to eq(11)
+      end
+    end
+    
+    11.upto(13) do |rank|
+      context "when rank is #{rank}" do
+        subject { described_class.new(rank, Card::SUITS.first) }
+
+        it "weight is 10" do
+          expect(subject.weight).to eq(10)
+        end
+      end
+    end
+    
+    2.upto(10) do |rank|
+      context "when rank is #{rank}" do
+        subject { described_class.new(rank, Card::SUITS.first) }
+
+        it "weight is #{rank}" do
+          expect(subject.weight).to eq(rank)
+        end
+      end
+    end
+  end
 end
 
