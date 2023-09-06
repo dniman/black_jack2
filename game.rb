@@ -4,23 +4,27 @@ require './logo'
 require './player'
 
 class Game
-  def initialize
+  attr_reader :player
+
+  def initialize(input: $stdio, output: $stdout)
+    @input = input
+    @output = output
+    @player = Player.new
+
     system('clear')
     show_logo
   end
 
   def start
-    player = Player.new
     player.ask_name
   end
 
   private
+  attr_reader :input, :output
 
   def show_logo
-    loop do
-      print logo.image
-      break if enter?
-    end
+    output.print logo.image
+    input.gets
   end
 
   def logo
@@ -28,6 +32,6 @@ class Game
   end
 
   def enter?
-    gets == "\n"
+    input.gets == "\n"
   end
 end
