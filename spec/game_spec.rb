@@ -1,6 +1,6 @@
 require './game'
-require 'stringio'
-require 'byebug'
+require './player'
+
 
 RSpec.describe Game do
   subject { described_class.new }
@@ -31,6 +31,13 @@ RSpec.describe Game do
         end
       end
 
+    end
+  end
+
+  describe '#start' do
+    it "asks player name" do
+      expect_any_instance_of(Player).to receive(:ask_name) 
+      subject.start
     end
   end
 
