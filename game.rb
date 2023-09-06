@@ -1,16 +1,19 @@
 require './logo'
+require 'byebug'
 
 class Game
-
-  def start
-    show_logo
+  def initialize
+    system("clear")
+    self.show_logo
   end
 
   private
 
   def show_logo
-    print logo.image
-    gets
+    loop do
+      print logo.image
+      break if gets == "\n"
+    end
   end
 
   def logo
