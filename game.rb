@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require './logo'
 
 class Game
   def initialize
-    system("clear")
-    self.show_logo
+    system('clear')
+    show_logo
   end
 
   private
