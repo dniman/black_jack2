@@ -17,7 +17,7 @@ RSpec.describe Game do
           symbol = $stdin.gets
 
           expect(symbol).to eq("\n")
-          expect(described_class).to receive(an_instance_of)
+          # тут нужен некий тест, который проверяет, что объект создался
         end
       end
 

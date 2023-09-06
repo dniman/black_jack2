@@ -1,5 +1,4 @@
 require './logo'
-require 'byebug'
 
 class Game
   def initialize
@@ -12,7 +11,7 @@ class Game
   def show_logo
     loop do
       print logo.image
-      break if gets == "\n"
+      break if enter?
     end
   end
 
@@ -20,4 +19,7 @@ class Game
     @logo ||= Logo.new
   end
 
+  def enter?
+    gets == "\n"
+  end
 end
