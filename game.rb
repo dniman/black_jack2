@@ -9,14 +9,12 @@ class Game
   def initialize(input: $stdio, output: $stdout)
     @input = input
     @output = output
-    @player = Player.new
 
-    system('clear')
     show_logo
+    @player = Player.new(ask_user_name)
   end
 
   def start
-    player.ask_name
   end
 
   private
@@ -31,7 +29,7 @@ class Game
     @logo ||= Logo.new
   end
 
-  def enter?
-    input.gets == "\n"
+  def ask_user_name
+    gets.chomp
   end
 end
