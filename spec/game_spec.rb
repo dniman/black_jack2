@@ -3,7 +3,6 @@ require './player'
 require './logo'
 require './deck'
 require 'stringio'
-require 'byebug'
 
 RSpec.describe Game do
   let(:input) { $stdin }

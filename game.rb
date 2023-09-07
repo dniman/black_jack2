@@ -3,7 +3,6 @@
 require './logo'
 require './player'
 require './deck'
-require 'byebug'
 
 class Game
   attr_reader :deck, :player
