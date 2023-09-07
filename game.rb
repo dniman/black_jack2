@@ -2,19 +2,23 @@
 
 require './logo'
 require './player'
+require './deck'
+require 'byebug'
 
 class Game
-  attr_reader :player
+  attr_reader :deck, :player
 
-  def initialize(input: $stdio, output: $stdout)
+  def initialize(input: $stdin, output: $stdout)
     @input = input
     @output = output
+    @deck = Deck.new
 
     show_logo
     @player = Player.new(ask_user_name)
   end
 
   def start
+    deck.shuffle
   end
 
   private
@@ -30,6 +34,7 @@ class Game
   end
 
   def ask_user_name
-    gets.chomp
+    output.print "Enter your name: "
+    input.gets.chomp
   end
 end
