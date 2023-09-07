@@ -27,5 +27,4 @@ RSpec.describe Game do
       game.start
     end
   end
-
 end
