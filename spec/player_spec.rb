@@ -11,4 +11,8 @@ RSpec.describe Player do
   it 'has a cash' do
     expect(subject.cash). to eq(100)
   end
+
+  it 'has cards' do
+    expect(subject.cards).to be_empty
+  end
 end

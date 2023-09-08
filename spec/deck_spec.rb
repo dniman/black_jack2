@@ -33,4 +33,11 @@ RSpec.describe Deck do
       end
     end
   end
+
+  describe '#draw' do
+    it "one card less in the deck" do
+      subject.draw
+      expect(subject.cards.size).to eq(51)
+    end
+  end
 end

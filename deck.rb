@@ -26,4 +26,8 @@ class Deck
       true
     end
   end
+
+  def draw
+    cards.pop
+  end
 end
