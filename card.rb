@@ -23,6 +23,10 @@ class Card
     end
   end
 
+  def ==(other)
+    rank == other.rank && suit == other.suit
+  end
+
   private
 
   def default_weight(value)

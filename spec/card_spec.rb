@@ -84,5 +84,24 @@ RSpec.describe Card do
       end
     end
   end
+
+  context 'equality' do
+    describe 'comparing with the same card' do
+      let(:card) { subject.clone }
+
+      it 'is equal' do
+        expect(subject).to eq(card)
+      end
+    end
+
+    describe 'comparing with different card' do
+      let(:card) { described_class.new(3, Card::SUITS.first) }
+
+      it 'is not equal' do
+        expect(subject).to_not eq(card)
+      end
+    end
+
+  end
 end
 

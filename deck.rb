@@ -20,7 +20,7 @@ class Deck
     else
       index = 0
       while index < cards.size do
-        return unless cards[index].rank == other.cards[index].rank && cards[index].suit == other.cards[index].suit
+        return unless cards[index] == other.cards[index]
         index += 1
       end
 
