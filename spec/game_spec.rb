@@ -13,14 +13,23 @@ RSpec.describe Game do
     allow(input).to receive(:gets).and_return("John")
   end
 
+  let(:dealer) { game.dealer }
+  let(:player) { game.player }
+
   it "has a dealer" do
-    expect(game.dealer).to be_an_instance_of(Dealer)
+    expect(dealer).to be_an_instance_of(Dealer)
   end
 
   it "has a player" do
-    expect(game.player.name).to eq("John")
+    expect(player.name).to eq("John")
   end
 
   describe "#start" do
+    context "dealer" do
+      it "deals cards to players" do
+        expect(dealer).to receive(:deal_cards).with(player)
+        dealer.deal_cards(player)
+      end
+    end
   end
 end

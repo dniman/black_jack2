@@ -18,6 +18,7 @@ class Game
   end
 
   def start
+    dealer.deal_cards(player)
   end
 
   private
