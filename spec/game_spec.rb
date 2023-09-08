@@ -22,9 +22,5 @@ RSpec.describe Game do
   end
 
   describe "#start" do
-    it 'shuffles the deck' do
-      expect(game.deck).to receive(:shuffle)
-      game.start
-    end
   end
 end

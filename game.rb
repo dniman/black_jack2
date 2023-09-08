@@ -17,7 +17,6 @@ class Game
   end
 
   def start
-    deck.shuffle
   end
 
   private
