@@ -103,5 +103,21 @@ RSpec.describe Card do
     end
 
   end
+
+  describe "#ace?" do
+    context "when card is ace" do
+      subject { described_class.new(1, Card::SUITS.first) }
+
+      it 'true' do
+        expect(subject.ace?).to be_truthy
+      end
+    end
+
+    context "when card is not ace" do
+      it 'true' do
+        expect(subject.ace?).to be_falsy
+      end
+    end
+  end
 end
 

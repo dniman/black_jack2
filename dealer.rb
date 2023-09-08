@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require './deck'
+require 'byebug'
 
 class Dealer
   attr_reader :cash, :cards, :deck, :score
@@ -14,8 +15,18 @@ class Dealer
   def deal_cards(user)
     2.times do
       [user, self].each do |player|
-        player.cards << deck.draw
+        player.take_card(deck.draw)
       end
+    end
+  end
+
+  def take_card(card)
+    @cards << card
+
+    if @score > 10 && card.ace?
+      @score += card.rank
+    else
+      @score += card.weight
     end
   end
 end

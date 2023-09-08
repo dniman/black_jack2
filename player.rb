@@ -9,4 +9,14 @@ class Player
     @cards = []
     @score = 0
   end
+
+  def take_card(card)
+    @cards << card
+
+    if @score > 10 && card.ace?
+      @score += card.rank
+    else
+      @score += card.weight
+    end
+  end
 end
