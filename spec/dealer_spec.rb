@@ -17,6 +17,10 @@ RSpec.describe Dealer do
     expect(subject.deck).to be_an_instance_of(Deck) 
   end
 
+  it 'has a score' do
+    expect(subject.score). to be_zero
+  end
+
   describe "#deal_cards" do
     let(:player) { Player.new("John") }
 

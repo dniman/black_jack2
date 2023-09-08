@@ -15,4 +15,8 @@ RSpec.describe Player do
   it 'has cards' do
     expect(subject.cards).to be_empty
   end
+
+  it 'has a score' do
+    expect(subject.score).to be_zero
+  end
 end
