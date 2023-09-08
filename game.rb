@@ -1,16 +1,17 @@
 # frozen_string_literal: true
 
 require './logo'
+require './dealer'
 require './player'
-require './deck'
+require './dealer'
 
 class Game
-  attr_reader :deck, :player
+  attr_reader :dealer, :player
 
   def initialize(input: $stdin, output: $stdout)
     @input = input
     @output = output
-    @deck = Deck.new
+    @dealer = Dealer.new
 
     show_logo
     @player = Player.new(ask_user_name)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require './deck'
 
 class Dealer
   attr_reader :cash, :cards, :deck

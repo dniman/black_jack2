@@ -1,7 +1,7 @@
 require './game'
 require './player'
 require './logo'
-require './deck'
+require './dealer'
 require 'stringio'
 
 RSpec.describe Game do
@@ -13,8 +13,8 @@ RSpec.describe Game do
     allow(input).to receive(:gets).and_return("John")
   end
 
-  it "has a deck" do
-    expect(game.deck).to be_an_instance_of(Deck)
+  it "has a dealer" do
+    expect(game.dealer).to be_an_instance_of(Dealer)
   end
 
   it "has a player" do
