@@ -2,8 +2,7 @@
 
 # Карта
 class Card
-  # червы бубны пики вини
-  SUITS = %W[\u{2661} \u{2662} \u{2664} \u{2667}].freeze
+  SUITS = %w[♡ ♢ ♤ ♧].freeze
 
   attr_reader :rank, :suit, :weight
 
