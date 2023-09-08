@@ -1,5 +1,4 @@
 require './card'
-require 'byebug'
 
 class Deck
   attr_reader :cards
