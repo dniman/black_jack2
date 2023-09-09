@@ -9,8 +9,8 @@ class Player < Gamer
   end
 
   def info
-    "\e[4m#Player\e[0m: #{ name.ljust(15, ' ')} - #{ cash.to_s.concat('$').ljust(4, ' ')}\t\
-        Cards: #{ cards.map(&:info).join(' ').ljust(15, ' ')}\t\
+    "\e[4m#Player\e[0m: #{name.ljust(15, ' ')} - #{cash.to_s.concat('$').ljust(4, ' ')}\t\
+        Cards: #{cards.map(&:info).join(' ').ljust(15, ' ')}\t\
         Score: #{score}"
   end
 end

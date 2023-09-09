@@ -48,7 +48,7 @@ class Game
   def players
     [dealer, player]
   end
-  
+
   def game_bank_info
     "Game bank: #{bank.values.inject(:+)}$"
   end

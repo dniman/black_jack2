@@ -27,9 +27,7 @@ class Gamer
     self.cash = cash - value
   end
 
-  def info
-
-  end
+  def info; end
 
   private
 

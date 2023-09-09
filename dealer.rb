@@ -18,10 +18,10 @@ class Dealer < Gamer
       end
     end
   end
-  
+
   def info
-    "\e[4m#Dealer\e[0m: #{ ''.ljust(15, ' ')} - #{ cash.to_s.concat('$').ljust(4, ' ')}\t\
-        Cards: #{ Array.new(cards.count, '*').join(' ').ljust(15, ' ')}\t\
+    "\e[4m#Dealer\e[0m: #{''.ljust(15, ' ')} - #{cash.to_s.concat('$').ljust(4, ' ')}\t\
+        Cards: #{Array.new(cards.count, '*').join(' ').ljust(15, ' ')}\t\
         Score: ??"
   end
 end

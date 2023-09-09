@@ -9,7 +9,7 @@ require 'stringio'
 RSpec.describe Game do
   let(:input) { $stdin }
   let(:output) { StringIO.new }
-  subject(:game) { described_class.new(input: input, output: output) }
+  subject(:game) { described_class.new(input:, output:) }
 
   before(:each) do
     allow(input).to receive(:gets).and_return("\n")
@@ -53,24 +53,23 @@ RSpec.describe Game do
         game.start
       end
     end
-    
-    it "shows game bank" do
+
+    it 'shows game bank' do
       game.start
 
       expect(output.string).to match(/Game bank: 20/)
     end
-    
-    it "shows player info" do
+
+    it 'shows player info' do
       game.start
 
       expect(output.string).to match(/#Player/)
     end
-    
-    it "shows dealer info" do
+
+    it 'shows dealer info' do
       game.start
 
       expect(output.string).to match(/#Dealer/)
     end
-
   end
 end
