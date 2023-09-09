@@ -1,15 +1,14 @@
 # frozen_string_literal: true
-require './deck'
-require 'byebug'
 
-class Dealer
-  attr_reader :cash, :cards, :deck, :score
+require './gamer'
+require './deck'
+
+class Dealer < Gamer
+  attr_reader :deck
 
   def initialize
-    @cash = 100
-    @cards = []
+    super()
     @deck = Deck.new
-    @score = 0
   end
 
   def deal_cards(user)
@@ -19,24 +18,4 @@ class Dealer
       end
     end
   end
-
-  def take_card(card)
-    @cards << card
-
-    if @score > 10 && card.ace?
-      @score += card.rank
-    else
-      @score += card.weight
-    end
-  end
-
-  def bet(bank, value)
-    bank[:dealer] = value
-
-    self.cash = cash - value
-  end
-
-  private
-  
-  attr_writer :cash
 end

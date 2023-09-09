@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require './card'
 
 RSpec.describe Card do
   subject { described_class.new(2, Card::SUITS.first) }
-  
+
   it '#rank' do
     expect(subject.rank).to eq(2)
   end
@@ -27,7 +29,7 @@ RSpec.describe Card do
         expect(subject.info).to eq("J#{Card::SUITS.first}")
       end
     end
-    
+
     context 'when rank is 12' do
       subject { described_class.new(12, Card::SUITS.first) }
 
@@ -35,7 +37,7 @@ RSpec.describe Card do
         expect(subject.info).to eq("Q#{Card::SUITS.first}")
       end
     end
-    
+
     context 'when rank is 13' do
       subject { described_class.new(13, Card::SUITS.first) }
 
@@ -43,7 +45,7 @@ RSpec.describe Card do
         expect(subject.info).to eq("K#{Card::SUITS.first}")
       end
     end
-    
+
     2.upto(10) do |rank|
       context "when rank is #{rank}" do
         subject { described_class.new(rank, Card::SUITS.first) }
@@ -54,26 +56,26 @@ RSpec.describe Card do
       end
     end
   end
-  
+
   describe '#weight' do
     context 'when rank is 1' do
       subject { described_class.new(1, Card::SUITS.first) }
 
-      it "weight is 11" do
+      it 'weight is 11' do
         expect(subject.weight).to eq(11)
       end
     end
-    
+
     11.upto(13) do |rank|
       context "when rank is #{rank}" do
         subject { described_class.new(rank, Card::SUITS.first) }
 
-        it "weight is 10" do
+        it 'weight is 10' do
           expect(subject.weight).to eq(10)
         end
       end
     end
-    
+
     2.upto(10) do |rank|
       context "when rank is #{rank}" do
         subject { described_class.new(rank, Card::SUITS.first) }
@@ -101,11 +103,10 @@ RSpec.describe Card do
         expect(subject).to_not eq(card)
       end
     end
-
   end
 
-  describe "#ace?" do
-    context "when card is ace" do
+  describe '#ace?' do
+    context 'when card is ace' do
       subject { described_class.new(1, Card::SUITS.first) }
 
       it 'true' do
@@ -113,11 +114,10 @@ RSpec.describe Card do
       end
     end
 
-    context "when card is not ace" do
+    context 'when card is not ace' do
       it 'true' do
         expect(subject.ace?).to be_falsy
       end
     end
   end
 end
-

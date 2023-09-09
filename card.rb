@@ -26,7 +26,7 @@ class Card
   def ==(other)
     rank == other.rank && suit == other.suit
   end
-  
+
   def ace?
     rank == 1
   end
@@ -37,7 +37,7 @@ class Card
     return 10 if face_card?
     return 11 if ace?
 
-    value 
+    value
   end
 
   def face_card?

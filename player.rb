@@ -1,32 +1,10 @@
 # frozen_string_literal: true
 
-class Player
-  attr_reader :name, :cash, :cards, :score
+class Player < Gamer
+  attr_reader :name
 
   def initialize(name)
+    super()
     @name = name
-    @cash = 100
-    @cards = []
-    @score = 0
   end
-
-  def take_card(card)
-    @cards << card
-
-    if @score > 10 && card.ace?
-      @score += card.rank
-    else
-      @score += card.weight
-    end
-  end
-  
-  def bet(bank, value)
-    bank[:player] = value
-
-    self.cash = cash - value
-  end
-
-  private
-  
-  attr_writer :cash
 end

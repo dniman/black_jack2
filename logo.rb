@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Logo
   attr_reader :image
 
@@ -15,12 +17,11 @@ class Logo
     end
 
     def file_name
-      "logo.txt"
+      'logo.txt'
     end
   end
 
   def initialize
     @image = self.class.load
   end
-
 end

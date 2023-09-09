@@ -3,7 +3,6 @@
 require './logo'
 require './dealer'
 require './player'
-require './dealer'
 
 class Game
   BET_SIZE = 10
@@ -22,10 +21,11 @@ class Game
 
   def start
     dealer.deal_cards(player)
-    players.each {|player| player.bet(bank, BET_SIZE) }
+    players.each { |player| player.bet(bank, BET_SIZE) }
   end
 
   private
+
   attr_reader :input, :output
 
   def show_logo
@@ -38,7 +38,7 @@ class Game
   end
 
   def ask_user_name
-    output.print "Enter your name: "
+    output.print 'Enter your name: '
     input.gets.chomp
   end
 

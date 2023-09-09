@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require './card'
 
 class Deck
   attr_reader :cards
 
-  RANKS = *(1..13)
+  RANKS = (1..13).to_a.freeze
 
   def self.build
     Card::SUITS.product(RANKS).map { |suit, rank| Card.new(rank, suit) }
@@ -14,17 +16,16 @@ class Deck
   end
 
   def ==(other)
-    if other.nil? || !other.instance_of?(Deck)
-      return false
-    else
-      index = 0
-      while index < cards.size do
-        return unless cards[index] == other.cards[index]
-        index += 1
-      end
+    return false if other.nil? || !other.instance_of?(Deck)
 
-      true
+    index = 0
+    while index < cards.size
+      return unless cards[index] == other.cards[index]
+
+      index += 1
     end
+
+    true
   end
 
   def draw
