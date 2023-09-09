@@ -19,4 +19,14 @@ class Player
       @score += card.weight
     end
   end
+  
+  def bet(bank, value)
+    bank[:player] = value
+
+    self.cash = cash - value
+  end
+
+  private
+  
+  attr_writer :cash
 end

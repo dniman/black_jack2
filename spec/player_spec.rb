@@ -1,5 +1,6 @@
 require './player'
 require './card'
+require './game'
 
 RSpec.describe Player do
   let(:name) { "John" }
@@ -49,6 +50,21 @@ RSpec.describe Player do
           expect(subject.score).to eq(21)
         end
       end
+    end
+  end
+  
+  describe "#bet" do
+    let(:game) { instance_double("Game", bank: {}) }
+    let(:bank) { game.bank }
+
+    before(:each) { subject.bet(bank, Game::BET_SIZE) }
+
+    it "bets 10$ to the game bank" do
+      expect(bank).to include(player: Game::BET_SIZE)
+    end
+
+    it "decreases the cash" do
+      expect(subject.cash).to eq(90)
     end
   end
 end

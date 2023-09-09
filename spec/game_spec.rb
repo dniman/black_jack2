@@ -24,11 +24,27 @@ RSpec.describe Game do
     expect(player.name).to eq("John")
   end
 
+  it "has a bank" do
+    expect(game.bank).to eq({})
+  end
+
   describe "#start" do
     context "dealer" do
       it "deals cards to players" do
         expect(dealer).to receive(:deal_cards).with(player)
         dealer.deal_cards(player)
+      end
+
+      it "makes a stake" do
+        expect(dealer).to receive(:bet).with(game.bank, 10)
+        dealer.bet(game.bank, 10)
+      end
+    end
+
+    context "player" do
+      it "makes a stake" do
+        expect(player).to receive(:bet).with(game.bank, 10)
+        player.bet(game.bank, 10)
       end
     end
   end
