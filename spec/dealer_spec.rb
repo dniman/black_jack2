@@ -9,6 +9,12 @@ require './game'
 
 RSpec.describe Dealer do
   subject { described_class.new }
+  
+  let(:info) {
+    "\e[4m#Dealer\e[0m: #{ ''.ljust(15, ' ')} - #{ subject.cash.to_s.concat('$').ljust(4, ' ')}\t\
+        Cards: #{ Array.new(subject.cards.count, '*').join(' ').ljust(15, ' ')}\t\
+        Score: ??"
+  }
 
   it { is_expected.to be_kind_of(Gamer) }
   it { expect(subject).to respond_to(:cash) }
@@ -33,5 +39,9 @@ RSpec.describe Dealer do
       subject.deal_cards(player)
       expect(subject.cards.size).to eq(2)
     end
+  end
+  
+  it 'prints dealers info' do
+    expect(subject.info).to eq(info)
   end
 end
