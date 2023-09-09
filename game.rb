@@ -22,7 +22,7 @@ class Game
   def start
     dealer.deal_cards(player)
     players.each { |player| player.bet(bank, BET_SIZE) }
-    output.puts game_bank_info
+    output.puts bank_info
     output.puts player.info
     output.puts dealer.info
   end
@@ -49,7 +49,7 @@ class Game
     [dealer, player]
   end
 
-  def game_bank_info
+  def bank_info
     "Game bank: #{bank.values.inject(:+)}$"
   end
 end
