@@ -7,7 +7,7 @@ require './dealer'
 require 'stringio'
 
 RSpec.describe Game do
-  let(:input) { $stdin }
+  let(:input) { StringIO.new }
   let(:output) { StringIO.new }
   subject(:game) { described_class.new(input:, output:) }
 
@@ -33,8 +33,14 @@ RSpec.describe Game do
 
   describe '#start' do
     context 'dealer' do
+      before(:each) do
+        allow(player).to receive(:action).with(dealer, input:, output:)
+        allow(game).to receive(:send).and_return(true)
+      end
+
       it 'deals cards to players' do
-        expect(dealer).to receive(:deal_cards).with(player)
+        expect(dealer).to receive(:deal_card).with(player).twice
+        expect(dealer).to receive(:deal_card).with(dealer).twice
 
         game.start
       end
@@ -47,6 +53,11 @@ RSpec.describe Game do
     end
 
     context 'player' do
+      before(:each) do
+        allow(player).to receive(:action).with(dealer, input:, output:)
+        allow(game).to receive(:send).and_return(true)
+      end
+
       it 'makes a stake' do
         expect(player).to receive(:bet).with(game.bank, 10)
 
@@ -54,22 +65,37 @@ RSpec.describe Game do
       end
     end
 
-    it 'shows game bank' do
-      game.start
+    context 'game info' do
+      before(:each) do
+        allow(player).to receive(:action).with(dealer, input:, output:)
+        allow(game).to receive(:send).and_return(true)
+      end
 
-      expect(output.string).to match(/Game bank: 20/)
+      it 'shows game bank' do
+        game.start
+
+        expect(output.string).to match(/Game bank: 20/)
+      end
+
+      it 'shows player info' do
+        game.start
+
+        expect(output.string).to match(/#Player/)
+      end
+
+      it 'shows dealer info' do
+        game.start
+
+        expect(output.string).to match(/#Dealer/)
+      end
     end
 
-    it 'shows player info' do
-      game.start
+    context "when player's moves first" do
+      it 'gets them the move' do
+        expect(player).to receive(:action).with(dealer, input:, output:)
 
-      expect(output.string).to match(/#Player/)
-    end
-
-    it 'shows dealer info' do
-      game.start
-
-      expect(output.string).to match(/#Dealer/)
+        game.start
+      end
     end
   end
 end

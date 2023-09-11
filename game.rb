@@ -3,6 +3,7 @@
 require './logo'
 require './dealer'
 require './player'
+require 'byebug'
 
 class Game
   BET_SIZE = 10
@@ -20,11 +21,10 @@ class Game
   end
 
   def start
-    dealer.deal_cards(player)
-    players.each { |player| player.bet(bank, BET_SIZE) }
-    output.puts bank_info
-    output.puts player.info
-    output.puts dealer.info
+    deal_cards
+    bet
+    show_info
+    player.action(dealer, input:, output:)
   end
 
   private
@@ -46,10 +46,22 @@ class Game
   end
 
   def players
-    [dealer, player]
+    [player, dealer]
   end
 
-  def bank_info
-    "Game bank: #{bank.values.inject(:+)}$"
+  def deal_cards
+    2.times do
+      players.each { |player| dealer.deal_card(player) }
+    end
+  end
+
+  def bet
+    players.each { |player| player.bet(bank, BET_SIZE) }
+  end
+
+  def show_info
+    output.puts "Game bank: #{bank.values.inject(:+)}$"
+    output.puts player.info.to_s
+    output.puts dealer.info.to_s
   end
 end
