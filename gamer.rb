@@ -32,7 +32,7 @@ class Gamer
   def info; end
 
   def win?(gamer)
-    (score > gamer.score && gamer.score <= SCORES_TO_WIN) ||
+    (score > gamer.score && score <= SCORES_TO_WIN) ||
       (score <= SCORES_TO_WIN && gamer.score > SCORES_TO_WIN)
   end
 

@@ -85,7 +85,7 @@ RSpec.describe Gamer do
         let(:other) { instance_double('Dealer', score: 20) }
 
         it 'returns true' do
-          allow(subject).to receive(:score).and_return(21)
+          allow(subject).to receive(:score).and_return(20)
 
           expect(subject.win?(other)).to be_truthy
         end

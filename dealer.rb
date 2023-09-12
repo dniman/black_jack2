@@ -39,6 +39,10 @@ class Dealer < Gamer
         Score: #{score}"
   end
 
+  def deck=(value)
+    @deck = value
+  end
+
   private
 
   def reveal_cards?(player)

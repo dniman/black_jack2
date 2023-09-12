@@ -4,6 +4,7 @@ require './game'
 require './player'
 require './logo'
 require './dealer'
+require './deck'
 require 'stringio'
 
 RSpec.describe Game do
@@ -64,24 +65,50 @@ RSpec.describe Game do
       subject { described_class.new(input:, output:) }
 
       context 'resets values' do
-        it 'empty bank' do
-          expect(subject.bank).to be_empty
+        context 'game' do
+          it 'empty bank' do
+            expect(subject.bank).to be_empty
 
-          subject.start
+            subject.start
+          end
         end
 
-        it 'empty cards' do
-          expect(player.cards).to be_empty
-          expect(dealer.cards).to be_empty
+        context 'player' do
+          it 'empty cards' do
+            expect(player.cards).to be_empty
 
-          subject.start
+            subject.start
+          end
+
+          it 'score be zero' do
+            expect(player.score).to be_zero
+
+            subject.start
+          end
         end
+        
+        context 'dealer' do
+          let(:deck) { Deck.new }
 
-        it 'score be zero' do
-          expect(player.score).to be_zero
-          expect(dealer.score).to be_zero
+          it 'empty cards' do
+            expect(dealer.cards).to be_empty
 
-          subject.start
+            subject.start
+          end
+
+          it 'score be zero' do
+            expect(dealer.score).to be_zero
+
+            subject.start
+          end
+
+          it 'takes new deck' do
+            expect(Deck).to receive(:new).twice.and_return(deck)
+
+            expect(dealer.deck).to eq(deck)
+            subject.start
+
+          end
         end
       end
 
@@ -93,8 +120,3 @@ RSpec.describe Game do
     end
   end
 end
-
-# players.each do |player|
-#  player.cards = []
-#  player.score = 0
-# end
