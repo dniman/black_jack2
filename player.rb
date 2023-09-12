@@ -3,6 +3,8 @@
 require './game'
 
 class Player < Gamer
+  CARDS_LIMIT = 3
+
   attr_reader :name
 
   def initialize(name)
@@ -10,33 +12,27 @@ class Player < Gamer
     @name = name
   end
 
+
   def action(dealer, bank, input:, output:)
     show_info(dealer, bank, output:)
     output.print menu_info.chomp
     value = input.gets.to_i
-    if (1..3).include?(value)
-      case value
-      when 1
-        dealer.action(self, bank, input:, output:)
-      when 2
-        dealer.deal_card(self)
-        show_info(dealer, bank, output:)
-        dealer.action(self, bank, input:, output:)
-      when 3
-        show_info(dealer, bank, output:, full: true)
-      end
+    
+    if action_range.include?(value)
+      args = [dealer, bank]
+      kwargs = { input:, output: }
+      send(actions.keys[value - 1], *args, **kwargs)
     else
       action(dealer, bank, input:, output:)
     end
   end
 
   def menu_info
+    options = actions.values.each_with_object([]).with_index(1){|(e,arr),i| arr << [i,e]}
     <<~MENU
       Your move. What will you do?
-        1. Skip a turn
-        2. Take a card
-        3. Reveal cards
-      Choose an action 1/2/3:
+        #{options.map{|item| item.join('. ')}.join("\n  ")}
+      Choose an action #{actions.keys.map{|e| actions.keys.index(e) + 1}.join('/')}:
     MENU
   end
 
@@ -44,6 +40,20 @@ class Player < Gamer
     "\e[4m#Player\e[0m: #{name.ljust(15, ' ')} - #{cash.to_s.concat('$').ljust(4, ' ')}\t\
         Cards: #{cards.map(&:info).join(' ').ljust(15, ' ')}\t\
         Score: #{score}"
+  end
+  
+  def reveal_cards_action(dealer, bank, input:, output:)
+    show_info(dealer, bank, output:, full: true)
+  end
+
+  def skip_turn_action(dealer, bank, input:, output:)
+    dealer.action(self, bank, input:, output:)
+  end
+
+  def take_card_action(dealer, bank, input:, output:)
+    dealer.deal_card(self)
+    show_info(dealer, bank, output:)
+    dealer.action(self, bank, input:, output:)
   end
 
   private
@@ -68,5 +78,23 @@ class Player < Gamer
     else
       output.puts dealer.info
     end
+  end
+
+  def actions
+    actions = {
+      reveal_cards_action:  "Reveal cards",
+      skip_turn_action:     "Skip a turn",
+      take_card_action:     "Take a card"
+    }.delete_if {|k,v| k == :take_card_action && cards_limit? }
+
+    actions
+  end
+
+  def action_range
+    Range.new(1,actions.size)
+  end
+  
+  def cards_limit?
+    cards.size == CARDS_LIMIT 
   end
 end

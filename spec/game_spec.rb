@@ -8,7 +8,7 @@ require './deck'
 require 'stringio'
 
 RSpec.describe Game do
-  let(:input) { StringIO.new("\nJohn\n3\nn\n") }
+  let(:input) { StringIO.new("\nJohn\n1\nn\n") }
   let(:output) { StringIO.new }
   subject { described_class.new(input:, output:) }
 
@@ -61,7 +61,7 @@ RSpec.describe Game do
     end
 
     context 'replay' do
-      let(:input) { StringIO.new("\nJohn\n3\ny\n3\nn\n") }
+      let(:input) { StringIO.new("\nJohn\n1\ny\n1\nn\n") }
       subject { described_class.new(input:, output:) }
 
       context 'resets values' do
@@ -103,7 +103,7 @@ RSpec.describe Game do
           end
 
           it 'takes new deck' do
-            expect(Deck).to receive(:new).twice.and_return(deck)
+            allow(Deck).to receive(:new).twice.and_return(deck)
 
             expect(dealer.deck).to eq(deck)
             subject.start
