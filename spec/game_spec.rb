@@ -86,7 +86,7 @@ RSpec.describe Game do
             subject.start
           end
         end
-        
+
         context 'dealer' do
           let(:deck) { Deck.new }
 
@@ -107,7 +107,6 @@ RSpec.describe Game do
 
             expect(dealer.deck).to eq(deck)
             subject.start
-
           end
         end
       end

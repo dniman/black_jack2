@@ -4,7 +4,7 @@ require './gamer'
 require './deck'
 
 class Dealer < Gamer
-  attr_reader :deck
+  attr_accessor :deck
 
   def initialize
     super()
@@ -37,10 +37,6 @@ class Dealer < Gamer
     "\e[4m#Dealer\e[0m: #{''.ljust(15, ' ')} - #{cash.to_s.concat('$').ljust(4, ' ')}\t\
         Cards: #{cards.map(&:info).join(' ').ljust(15, ' ')}\t\
         Score: #{score}"
-  end
-
-  def deck=(value)
-    @deck = value
   end
 
   private

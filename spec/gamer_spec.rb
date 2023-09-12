@@ -82,7 +82,7 @@ RSpec.describe Gamer do
     context 'when player\'s score is greater then other player\'s score' do
       context 'and player\'s score less or equal game\'s scores to win' do
         subject { Player.new('John') }
-        let(:other) { instance_double('Dealer', score: 20) }
+        let(:other) { instance_double('Dealer', score: 19) }
 
         it 'returns true' do
           allow(subject).to receive(:score).and_return(20)
