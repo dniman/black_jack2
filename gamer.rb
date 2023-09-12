@@ -3,7 +3,9 @@
 # Base class for both
 # player and dealer
 class Gamer
-  attr_reader :cash, :cards, :score
+  SCORES_TO_WIN = 21
+
+  attr_accessor :cash, :cards, :score
 
   def initialize
     @cash = 100
@@ -29,7 +31,13 @@ class Gamer
 
   def info; end
 
-  private
+  def win?(gamer)
+    (score > gamer.score && gamer.score <= SCORES_TO_WIN) ||
+      (score <= SCORES_TO_WIN && gamer.score > SCORES_TO_WIN)
+  end
 
-  attr_writer :cash
+  def lose?(gamer)
+    (score < gamer.score && gamer.score <= SCORES_TO_WIN) ||
+      (score > SCORES_TO_WIN && gamer.score <= SCORES_TO_WIN)
+  end
 end

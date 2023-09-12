@@ -77,4 +77,82 @@ RSpec.describe Gamer do
       expect(subject.cash).to eq(90)
     end
   end
+
+  describe '#win?' do
+    context 'when player\'s score is greater then other player\'s score' do
+      context 'and player\'s score less or equal game\'s scores to win' do
+        subject { Player.new('John') }
+        let(:other) { instance_double('Dealer', score: 20) }
+
+        it 'returns true' do
+          allow(subject).to receive(:score).and_return(21)
+
+          expect(subject.win?(other)).to be_truthy
+        end
+      end
+
+      context 'and player\'s score greater game\'s scores to win' do
+        subject { Player.new('John') }
+        let(:other) { instance_double('Dealer', score: 22) }
+
+        it 'returns false' do
+          allow(subject).to receive(:score).and_return(23)
+
+          expect(subject.win?(other)).to be_falsey
+        end
+      end
+    end
+
+    context 'when player\'s score less or equal game\'s scores to win' do
+      context 'and other player\'s score greater then game\'s scores to win' do
+        subject { Player.new('John') }
+        let(:other) { instance_double('Dealer', score: 26) }
+
+        it 'returns true' do
+          allow(subject).to receive(:score).and_return(21)
+
+          expect(subject.win?(other)).to be_truthy
+        end
+      end
+    end
+  end
+
+  describe '#lose?' do
+    context 'when player\'s score is less then other player\'s score' do
+      context 'and player\'s score less or equal game\'s scores to win' do
+        subject { Player.new('John') }
+        let(:other) { instance_double('Dealer', score: 21) }
+
+        it 'returns true' do
+          allow(subject).to receive(:score).and_return(20)
+
+          expect(subject.lose?(other)).to be_truthy
+        end
+      end
+
+      context 'and player\'s score greater game\'s scores to win' do
+        subject { Player.new('John') }
+        let(:other) { instance_double('Dealer', score: 23) }
+
+        it 'returns false' do
+          allow(subject).to receive(:score).and_return(22)
+
+          expect(subject.lose?(other)).to be_falsey
+        end
+      end
+    end
+
+    context "when player'\s score is greater then game\'s scores to win" do
+      context 'and gamer\'s score is less or equal game\'s scores to win' do
+        subject { Player.new('John') }
+        let(:other) { instance_double('Dealer', score: 21) }
+
+        it 'returns true' do
+          allow(subject).to receive(:score).and_return(22)
+
+          expect(subject.lose?(other)).to be_truthy
+        end
+      end
+    end
+  end
 end

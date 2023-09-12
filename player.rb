@@ -10,22 +10,23 @@ class Player < Gamer
     @name = name
   end
 
-  def action(dealer, input:, output:)
-    output.print menu_info
+  def action(dealer, bank, input:, output:)
+    show_info(dealer, bank, output:)
+    output.print menu_info.chomp
     value = input.gets.to_i
     if (1..3).include?(value)
       case value
       when 1
-        dealer.action(self, input:, output:)
+        dealer.action(self, bank, input:, output:)
       when 2
         dealer.deal_card(self)
-        show_info(dealer, output:)
-        dealer.action(self, input:, output:)
+        show_info(dealer, bank, output:)
+        dealer.action(self, bank, input:, output:)
       when 3
-        show_info(dealer, output:, full: true)
+        show_info(dealer, bank, output:, full: true)
       end
     else
-      action(dealer, input:, output:)
+      action(dealer, bank, input:, output:)
     end
   end
 
@@ -45,8 +46,27 @@ class Player < Gamer
         Score: #{score}"
   end
 
-  def show_info(dealer, output:, full: false)
+  private
+
+  def show_info(dealer, bank, output:, full: false)
+    output.puts "Game bank: #{bank.values.inject(:+)}$"
     output.puts info
-    output.puts full ? dealer.full_info : dealer.info
+
+    if full
+      output.puts dealer.full_info
+      if win?(dealer)
+        output.puts 'Congrats, you win!'
+        self.cash += bank.values.inject(:+)
+      elsif lose?(dealer)
+        output.puts 'Sorry, you lose...'
+        dealer.cash = dealer.cash + bank.values.inject(:+)
+      else
+        output.puts 'Draw!'
+        dealer.cash = dealer.cash + bank[:dealer]
+        self.cash += bank[:player]
+      end
+    else
+      output.puts dealer.info
+    end
   end
 end

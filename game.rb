@@ -3,7 +3,6 @@
 require './logo'
 require './dealer'
 require './player'
-require 'byebug'
 
 class Game
   BET_SIZE = 10
@@ -23,8 +22,12 @@ class Game
   def start
     deal_cards
     bet
-    show_info
-    player.action(dealer, input:, output:)
+    player.action(dealer, bank, input:, output:)
+
+    return unless replay?
+
+    reset!
+    start
   end
 
   private
@@ -59,9 +62,24 @@ class Game
     players.each { |player| player.bet(bank, BET_SIZE) }
   end
 
-  def show_info
-    output.puts "Game bank: #{bank.values.inject(:+)}$"
-    output.puts player.info.to_s
-    output.puts dealer.info.to_s
+  def replay?
+    output.print 'Play again?(y/n): '
+    value = input.gets.chomp
+    replay? unless %w[y n].include?(value)
+    return false if exit?(value)
+
+    true
+  end
+
+  def reset!
+    @bank = {}
+    players.each do |player|
+      player.cards = []
+      player.score = 0
+    end
+  end
+
+  def exit?(value)
+    value == 'n'
   end
 end

@@ -7,17 +7,13 @@ require './dealer'
 require 'stringio'
 
 RSpec.describe Game do
-  let(:input) { StringIO.new }
+  let(:input) { StringIO.new("\nJohn\n3\nn\n") }
   let(:output) { StringIO.new }
-  subject(:game) { described_class.new(input:, output:) }
+  subject { described_class.new(input:, output:) }
 
-  before(:each) do
-    allow(input).to receive(:gets).and_return("\n")
-    allow(input).to receive(:gets).and_return('John')
-  end
-
-  let(:dealer) { game.dealer }
-  let(:player) { game.player }
+  let(:bank) { subject.bank }
+  let(:dealer) { subject.dealer }
+  let(:player) { subject.player }
 
   it 'has a dealer' do
     expect(dealer).to be_an_instance_of(Dealer)
@@ -28,74 +24,77 @@ RSpec.describe Game do
   end
 
   it 'has a bank' do
-    expect(game.bank).to eq({})
+    expect(bank).to eq({})
   end
 
   describe '#start' do
     context 'dealer' do
-      before(:each) do
-        allow(player).to receive(:action).with(dealer, input:, output:)
-        allow(game).to receive(:send).and_return(true)
-      end
-
       it 'deals cards to players' do
-        expect(dealer).to receive(:deal_card).with(player).twice
-        expect(dealer).to receive(:deal_card).with(dealer).twice
+        subject.start
 
-        game.start
+        expect(dealer.cards.size).to eq(2)
+        expect(player.cards.size).to eq(2)
       end
 
       it 'makes a stake' do
-        expect(dealer).to receive(:bet).with(game.bank, 10)
+        subject.start
 
-        game.start
+        expect(bank).to include(dealer: 10)
       end
     end
 
     context 'player' do
-      before(:each) do
-        allow(player).to receive(:action).with(dealer, input:, output:)
-        allow(game).to receive(:send).and_return(true)
-      end
-
       it 'makes a stake' do
-        expect(player).to receive(:bet).with(game.bank, 10)
+        subject.start
 
-        game.start
+        expect(bank).to include(player: 10)
       end
     end
 
-    context 'game info' do
-      before(:each) do
-        allow(player).to receive(:action).with(dealer, input:, output:)
-        allow(game).to receive(:send).and_return(true)
-      end
-
-      it 'shows game bank' do
-        game.start
-
-        expect(output.string).to match(/Game bank: 20/)
-      end
-
-      it 'shows player info' do
-        game.start
-
-        expect(output.string).to match(/#Player/)
-      end
-
-      it 'shows dealer info' do
-        game.start
-
-        expect(output.string).to match(/#Dealer/)
-      end
-    end
-
-    context "when player's moves first" do
+    context "player's moves first" do
       it 'gets them the move' do
-        expect(player).to receive(:action).with(dealer, input:, output:)
+        expect(player).to receive(:action).with(dealer, bank, input:, output:).and_call_original
 
-        game.start
+        subject.start
+      end
+    end
+
+    context 'replay' do
+      let(:input) { StringIO.new("\nJohn\n3\ny\n3\nn\n") }
+      subject { described_class.new(input:, output:) }
+
+      context 'resets values' do
+        it 'empty bank' do
+          expect(subject.bank).to be_empty
+
+          subject.start
+        end
+
+        it 'empty cards' do
+          expect(player.cards).to be_empty
+          expect(dealer.cards).to be_empty
+
+          subject.start
+        end
+
+        it 'score be zero' do
+          expect(player.score).to be_zero
+          expect(dealer.score).to be_zero
+
+          subject.start
+        end
+      end
+
+      it 'starts again' do
+        expect(subject).to receive(:start)
+
+        subject.start
       end
     end
   end
 end
+
+# players.each do |player|
+#  player.cards = []
+#  player.score = 0
+# end

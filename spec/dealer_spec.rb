@@ -9,7 +9,13 @@ require './game'
 
 RSpec.describe Dealer do
   subject { described_class.new }
-  let(:player) { instance_double('Player', action: true, info: '123', cards: [1, 2, 3]) }
+  let(:player) do
+    instance_double('Player', action: true, info: '123', cards: [1, 2, 3], score: 21, cash: 100, "cash=": true)
+  end
+
+  let(:bank) { { dealer: 10, player: 10 } }
+
+  let(:bank_info) { "Game bank: #{bank.values.inject(:+)}$" }
 
   let(:info) do
     "\e[4m#Dealer\e[0m: #{''.ljust(15, ' ')} - #{subject.cash.to_s.concat('$').ljust(4, ' ')}\t\
@@ -64,9 +70,9 @@ RSpec.describe Dealer do
       it 'skips the turn' do
         allow(subject).to receive(:score).and_return(17)
 
-        expect(player).to receive(:action).with(subject, input:, output:)
+        expect(player).to receive(:action).with(subject, bank, input:, output:)
 
-        subject.action(player, input:, output:)
+        subject.action(player, bank, input:, output:)
       end
     end
 
@@ -78,13 +84,21 @@ RSpec.describe Dealer do
       it 'takes a card' do
         expect(subject).to receive(:deal_card).with(subject)
 
-        subject.action(player, input:, output:)
+        subject.action(player, bank, input:, output:)
+      end
+
+      it 'prints bank info' do
+        allow(subject).to receive(:deal_card).with(subject)
+
+        subject.action(player, bank, input:, output:)
+
+        expect(output.string).to match(/#{Regexp.quote(bank_info)}/)
       end
 
       it "prints player's info" do
         allow(subject).to receive(:deal_card).with(subject)
 
-        subject.action(player, input:, output:)
+        subject.action(player, bank, input:, output:)
 
         expect(output.string).to match(/123/)
       end
@@ -92,15 +106,15 @@ RSpec.describe Dealer do
       it "prints dealer's info" do
         allow(subject).to receive(:deal_card).with(subject)
 
-        subject.action(player, input:, output:)
+        subject.action(player, bank, input:, output:)
 
         expect(output.string).to match(/#{Regexp.quote(info)}/)
       end
 
       it 'moves turn to player' do
-        expect(player).to receive(:action).with(subject, input:, output:)
+        expect(player).to receive(:action).with(subject, bank, input:, output:)
 
-        player.action(subject, input:, output:)
+        player.action(subject, bank, input:, output:)
       end
     end
 
@@ -111,16 +125,54 @@ RSpec.describe Dealer do
         allow(subject).to receive(:cards).and_return(cards)
       end
 
+      it 'prints bank info' do
+        allow(subject).to receive(:deal_card).with(subject)
+
+        subject.action(player, bank, input:, output:)
+
+        expect(output.string).to match(/#{Regexp.quote(bank_info)}/)
+      end
+
       it "prints player's info" do
-        subject.action(player, input:, output:)
+        subject.action(player, bank, input:, output:)
 
         expect(output.string).to match(/123/)
       end
 
       it "prints dealer's full info" do
-        subject.action(player, input:, output:)
+        subject.action(player, bank, input:, output:)
 
         expect(output.string).to match(/#{Regexp.quote(full_info)}/)
+      end
+
+      context 'and win' do
+        let(:player) do
+          instance_double('Player', action: true, info: '123', cards:, score: 20, cash: 100, "cash=": true)
+        end
+
+        it 'says to player he lose' do
+          allow(subject).to receive(:score).and_return(21)
+
+          subject.action(player, bank, input:, output:)
+
+          expect(output.string).to match(/Sorry, you lose.../)
+        end
+
+        it 'says to player he win' do
+          allow(subject).to receive(:score).and_return(19)
+
+          subject.action(player, bank, input:, output:)
+
+          expect(output.string).to match(/Congrats, you win!/)
+        end
+
+        it 'says draw' do
+          allow(subject).to receive(:score).and_return(20)
+
+          subject.action(player, bank, input:, output:)
+
+          expect(output.string).to match(/Draw!/)
+        end
       end
     end
   end
