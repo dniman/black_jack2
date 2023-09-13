@@ -75,7 +75,6 @@ class Game
     @bank = {}
     players.each do |player|
       player.cards = []
-      player.score = 0
     end
     dealer.deck = Deck.new
   end
