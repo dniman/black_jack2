@@ -35,7 +35,7 @@ RSpec.describe Gamer do
     end
 
     context 'when card ace and score > 21' do
-      it 'substract 10 from the score' do 
+      it 'substract 10 from the score' do
         cards = [Card.new(1, Card::SUITS.first), Card.new(1, Card::SUITS.first)]
         cards.each { |card| subject.take_card(card) }
 

@@ -12,12 +12,11 @@ class Player < Gamer
     @name = name
   end
 
-
   def action(dealer, bank, input:, output:)
     show_info(dealer, bank, output:)
     output.print menu_info.chomp
     value = input.gets.to_i
-    
+
     if action_range.include?(value)
       args = [dealer, bank]
       kwargs = { input:, output: }
@@ -28,11 +27,11 @@ class Player < Gamer
   end
 
   def menu_info
-    options = actions.values.each_with_object([]).with_index(1){|(e,arr),i| arr << [i,e]}
+    options = actions.values.each_with_object([]).with_index(1) { |(e, arr), i| arr << [i, e] }
     <<~MENU
       Your move. What will you do?
-        #{options.map{|item| item.join('. ')}.join("\n  ")}
-      Choose an action #{actions.keys.map{|e| actions.keys.index(e) + 1}.join('/')}:
+        #{options.map { |item| item.join('. ') }.join("\n  ")}
+      Choose an action #{actions.keys.map { |e| actions.keys.index(e) + 1 }.join('/')}:
     MENU
   end
 
@@ -41,7 +40,7 @@ class Player < Gamer
         Cards: #{cards.map(&:info).join(' ').ljust(15, ' ')}\t\
         Score: #{score}"
   end
-  
+
   def reveal_cards_action(dealer, bank, input:, output:)
     show_info(dealer, bank, output:, full: true)
   end
@@ -81,20 +80,18 @@ class Player < Gamer
   end
 
   def actions
-    actions = {
-      reveal_cards_action:  "Reveal cards",
-      skip_turn_action:     "Skip a turn",
-      take_card_action:     "Take a card"
-    }.delete_if {|k,v| k == :take_card_action && cards_limit? }
-
-    actions
+    {
+      reveal_cards_action: 'Reveal cards',
+      skip_turn_action: 'Skip a turn',
+      take_card_action: 'Take a card'
+    }.delete_if { |k, _v| k == :take_card_action && cards_limit? }
   end
 
   def action_range
-    Range.new(1,actions.size)
+    Range.new(1, actions.size)
   end
-  
+
   def cards_limit?
-    cards.size == CARDS_LIMIT 
+    cards.size == CARDS_LIMIT
   end
 end

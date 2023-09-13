@@ -5,7 +5,7 @@
 class Gamer
   SCORES_TO_WIN = 21
 
-  attr_accessor :cash, :cards 
+  attr_accessor :cash, :cards
 
   def initialize
     @cash = 100
@@ -17,8 +17,11 @@ class Gamer
   end
 
   def score
-    score = cards.map{|c| c.weight}.inject(:+) || 0
-    cards.inject(score){|sum, c| sum -= 10 if c.ace? && sum > SCORES_TO_WIN; sum}
+    score = cards.map(&:weight).inject(:+) || 0
+    cards.inject(score) do |sum, c|
+      sum -= 10 if c.ace? && sum > SCORES_TO_WIN
+      sum
+    end
   end
 
   def bet(bank, value)
