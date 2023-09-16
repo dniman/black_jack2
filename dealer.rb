@@ -42,7 +42,7 @@ class Dealer < Gamer
   private
 
   def reveal_cards?(player)
-    cards.size == 3 && player.cards.size >= 3
+    cards.size == Gamer::CARDS_LIMIT && player.cards.size >= Gamer::CARDS_LIMIT
   end
 
   def show_info(player, bank, output:, full: false)

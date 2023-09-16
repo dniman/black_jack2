@@ -3,7 +3,11 @@
 require './game'
 
 class Player < Gamer
-  CARDS_LIMIT = 3
+  ACTIONS = {
+    reveal_cards_action: 'Reveal cards',
+    skip_turn_action: 'Skip a turn',
+    take_card_action: 'Take a card'
+  }
 
   attr_reader :name
 
@@ -80,11 +84,7 @@ class Player < Gamer
   end
 
   def actions
-    {
-      reveal_cards_action: 'Reveal cards',
-      skip_turn_action: 'Skip a turn',
-      take_card_action: 'Take a card'
-    }.delete_if { |k, _v| k == :take_card_action && cards_limit? }
+    ACTIONS.delete_if { |k, _v| k == :take_card_action && cards_limit? }
   end
 
   def action_range
@@ -92,6 +92,6 @@ class Player < Gamer
   end
 
   def cards_limit?
-    cards.size == CARDS_LIMIT
+    cards.size == Gamer::CARDS_LIMIT
   end
 end

@@ -3,6 +3,7 @@
 # Base class for both
 # player and dealer
 class Gamer
+  CARDS_LIMIT = 3
   SCORES_TO_WIN = 21
 
   attr_accessor :cash, :cards
