@@ -84,7 +84,7 @@ class Player < Gamer
   end
 
   def actions
-    ACTIONS.delete_if { |k, _v| k == :take_card_action && cards_limit? }
+    ACTIONS.dup.delete_if { |k, _v| k == :take_card_action && cards_limit? }
   end
 
   def action_range
